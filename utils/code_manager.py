@@ -3,7 +3,6 @@ from typing import Optional, Dict, Any
 import pandas as pd
 import numpy as np
 from datetime import datetime
-import matplotlib.pyplot as plt
 
 class CodeManager:
     def __init__(self, log_file: str = "analysis.log"):
@@ -15,8 +14,7 @@ class CodeManager:
         # 存储执行环境
         self.globals: Dict[str, Any] = {
             'pd': pd,
-            'np': np,
-            'plt': plt
+            'np': np
         }
         
     def setup_logging(self, log_file: str):
@@ -28,13 +26,8 @@ class CodeManager:
         )
         
     def set_dataframe(self, df: pd.DataFrame):
-        """设置数据框到执行环境，并进行基本预处理"""
-        # 预处理 Sales 列
-        if 'Sales' in df.columns:
-            df['Sales'] = df['Sales'].str.replace('$', '').str.replace(',', '').astype(float)
-        
+        """设置数据框到执行环境"""
         self.globals['df'] = df
-        self.globals['plt'] = plt  # 添加 matplotlib 支持
         logging.info(f"DataFrame loaded with shape: {df.shape}")
         
     def update_code(self, code: str):
