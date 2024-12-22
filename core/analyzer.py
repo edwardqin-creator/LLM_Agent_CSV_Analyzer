@@ -31,7 +31,7 @@ class DataAnalyzer:
         data_info = self.csv_handler.get_data_info()
         
         # 生成代码
-        print("生成��析代码...")
+        print("生成分析代码...")
         response = self.llm_interface.generate_response(
             self.conversation_history,
             data_info
@@ -51,18 +51,8 @@ class DataAnalyzer:
             self.conversation_history.append({"role": "assistant", "content": error_message})
             return self._handle_error(query, error)
             
-        # 生成结果解释
-        print("生成分析解释...")
-        result_prompt = f"代码执行结果:\n{output}\n\n请用简洁的语言解释上述结果。"
-        self.conversation_history.append({"role": "user", "content": result_prompt})
-        explanation = self.llm_interface.generate_response(self.conversation_history)
-        
-        # 构建完整的响应
-        return f"""分析结果：
-{output}
-
-解释：
-{explanation}"""
+        # 直接返回执行结果，不再请求模型解释
+        return f"分析结果：\n{output}"
         
     def _extract_code(self, response: str) -> List[str]:
         """从回复中提取代码块"""

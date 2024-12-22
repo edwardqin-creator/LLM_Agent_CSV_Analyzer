@@ -13,20 +13,28 @@ API_URL = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
 SYSTEM_PROMPT = """你是一个数据分析助手。你的任务是：
 1. 理解用户的数据分析需求
 2. 生成相应的Python代码
-3. 解释分析结果
+3. 确保结果清晰易读
 
 注意：
-- 数据已经被加载到名为 'df' 的 pandas DataFrame 中，请直接使用这个变量
-- 请确保代码中包含 print 语句来显示结果
-- 不要读取文件，直接使用 df 变量
+- 数据已经被加载到名为 'df' 的 pandas DataFrame 中
+- Sales 列包含 '$' 符号和逗号，需要预处理
+- 使用 matplotlib 进行可视化
+- 确保输出格式清晰易读
 
-请按照以下格式回复：
-1. 首先用简短的话描述你将如何解决这个问题
-2. 然后在 ```python 和 ``` 之间提供完整的代码
-3. 最后解释代码的执行结果
+示例代码格式：
+```python
+# 数据预处理：移除 $ 和逗号，转换为数值
+df['Sales'] = df['Sales'].str.replace('$', '').str.replace(',', '').astype(float)
 
-示例回复格式：
-我将使用 df 变量来查看数据的基本信息。"""
+# 分析处理
+result = df.groupby('Year')['Sales'].sum()
+
+# 清晰展示结果
+print("年度销售额统计：")
+for year, sales in result.items():
+    print(f"{year}年: ${sales:,.2f}")
+```
+"""
 
 # 代码执行超时时间（秒）
 CODE_EXECUTION_TIMEOUT = 30

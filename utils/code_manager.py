@@ -3,6 +3,7 @@ from typing import Optional, Dict, Any
 import pandas as pd
 import numpy as np
 from datetime import datetime
+import matplotlib.pyplot as plt
 
 class CodeManager:
     def __init__(self, log_file: str = "analysis.log"):
@@ -14,7 +15,8 @@ class CodeManager:
         # 存储执行环境
         self.globals: Dict[str, Any] = {
             'pd': pd,
-            'np': np
+            'np': np,
+            'plt': plt
         }
         
     def setup_logging(self, log_file: str):
@@ -26,8 +28,13 @@ class CodeManager:
         )
         
     def set_dataframe(self, df: pd.DataFrame):
-        """设置数据框到执行环境"""
+        """设置数据框到执行环境，并进行基本预处理"""
+        # 预处理 Sales 列
+        if 'Sales' in df.columns:
+            df['Sales'] = df['Sales'].str.replace('$', '').str.replace(',', '').astype(float)
+        
         self.globals['df'] = df
+        self.globals['plt'] = plt  # 添加 matplotlib 支持
         logging.info(f"DataFrame loaded with shape: {df.shape}")
         
     def update_code(self, code: str):
@@ -49,7 +56,7 @@ class CodeManager:
         if not self.current_code:
             logging.error("No code to execute")
             return False, "", "No code available"
-            
+        
         print(f"执行分析中... {datetime.now().strftime('%H:%M:%S')}")
         
         try:
@@ -78,18 +85,12 @@ class CodeManager:
                 print("执行出错，详细信息已记录到日志文件")
                 return False, output, error
             else:
+                # 只记录到日志，不打印到控制台
                 logging.info("Code executed successfully")
-                logging.info(f"Output: {output}")
+                logging.debug(f"Raw output: {output}")
                 
-                # 如果没有输出，尝试获取最后一个表达式的值
-                if not output.strip():
-                    last_line = self.current_code.strip().split('\n')[-1]
-                    if not (last_line.startswith('print') or '=' in last_line):
-                        try:
-                            result = eval(last_line, self.globals)
-                            output = str(result)
-                        except:
-                            pass
+                # 清理输出（移除不必要的技术细节）
+                output = self._clean_output(output)
                 
                 print("分析完成")
                 return True, output, ""
@@ -97,4 +98,19 @@ class CodeManager:
         except Exception as e:
             logging.exception("Execution failed")
             print("执行出错，详细信息已记录到日志文件")
-            return False, "", str(e) 
+            return False, "", str(e)
+        
+    def _clean_output(self, output: str) -> str:
+        """清理输出内容，移除不必要的技术细节"""
+        # 如果输出包含 DataFrame 信息，只保留关键信息
+        if "memory usage:" in output.lower():
+            lines = output.split('\n')
+            cleaned_lines = []
+            for line in lines:
+                # 跳过内存使用、数据类型等技术细节
+                if any(skip in line.lower() for skip in ['memory usage:', 'dtype', 'non-null']):
+                    continue
+                cleaned_lines.append(line)
+            output = '\n'.join(cleaned_lines)
+        
+        return output.strip()
