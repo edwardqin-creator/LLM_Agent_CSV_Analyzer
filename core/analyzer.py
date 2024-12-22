@@ -31,7 +31,7 @@ class DataAnalyzer:
         data_info = self.csv_handler.get_data_info()
         
         # 生成代码
-        print("生成分析代码...")
+        print("生成��析代码...")
         response = self.llm_interface.generate_response(
             self.conversation_history,
             data_info
@@ -51,8 +51,42 @@ class DataAnalyzer:
             self.conversation_history.append({"role": "assistant", "content": error_message})
             return self._handle_error(query, error)
             
-        # 直接返回执行结果，不再请求模型解释
-        return f"分析结果：\n{output}"
+        # 请求模型解释执行结果
+        print("生成结果解释...")
+        explanation_prompt = {
+            "role": "system",
+            "content": """你是一个数据分析助手，现在需要解释数据分析的结果。请注意：
+1. 仔细阅读执行结果中的具体数据
+2. 基于实际数据给出准确的解释
+3. 使用简洁的语言直接回答用户问题
+4. 不要生成代码或解释代码逻辑
+5. 如果结果包含技术细节，请提取关键信息"""
+        }
+        
+        result_prompt = {
+            "role": "user",
+            "content": f"""原始问题：{query}
+
+分析结果：
+{output}
+
+请基于上述分析结果，直接回答原始问题。回答需要：
+1. 准确：确保回答与数据结果一致
+2. 相关：直接回应用户的问题
+3. 简洁：只提供必要的信息"""
+        }
+
+        explanation = self.llm_interface.generate_response(
+            [explanation_prompt, result_prompt],
+            None  # 不需要再传递数据信息
+        )
+        
+        # 返回结果和解释
+        return f"""执行结果：
+{output}
+
+分析结论：
+{explanation}"""
         
     def _extract_code(self, response: str) -> List[str]:
         """从回复中提取代码块"""
