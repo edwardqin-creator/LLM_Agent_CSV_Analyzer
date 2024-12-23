@@ -50,7 +50,7 @@ class CodeManager:
             logging.error("No code to execute")
             return False, "", "No code available"
         
-        print(f"执行分析中... {datetime.now().strftime('%H:%M:%S')}")
+        print(f"执行代码中... {datetime.now().strftime('%H:%M:%S')}")
         
         try:
             # 捕获输出
@@ -85,7 +85,7 @@ class CodeManager:
                 # 清理输出（移除不必要的技术细节）
                 output = self._clean_output(output)
                 
-                print("分析完成")
+                print("代码执行完成")
                 return True, output, ""
                 
         except Exception as e:

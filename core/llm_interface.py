@@ -49,9 +49,9 @@ class LLMInterface:
         # 如果有数据信息，添加到上下文
         if data_info:
             data_context = f"""当前数据信息:
-- 形状: {data_info['shape']}
-- 列: {data_info['columns']}
-- 数据类型: {data_info['dtypes']}"""
+                            - 形状: {data_info['shape']}
+                            - 列: {data_info['columns']}
+                            - 数据类型: {data_info['dtypes']}"""
             full_messages.append({"role": "system", "content": data_context})
             
         full_messages.extend(messages)
