@@ -62,6 +62,7 @@ Query: 哪些年份 Components 比 Accessories 的总销售额高?
 
 Query: exit # 退出程序
 ```
+## 📹 演示视频
 
 ## 📖 项目架构
 ![image](https://github.com/user-attachments/assets/4f0f252e-6e6d-4898-8846-b3621cb7dca2)
@@ -99,6 +100,13 @@ Query: exit # 退出程序
    - 提供安全的代码执行环境
    - 捕获和处理执行错误
    - 管理执行上下文
+
+3. **utils/code_manager.py**
+   - 管理和执行 Python 代码片段
+   - 提供安全的代码执行环境
+   - 处理执行错误
+   - 实现日志记录功能
+   - 输出清理和格式化
 
 ## 开发日志
 
