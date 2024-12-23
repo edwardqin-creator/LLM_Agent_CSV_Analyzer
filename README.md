@@ -64,7 +64,7 @@ Query: exit # 退出程序
 ```
 ## 📹 演示视频
 <video controls width="600">
-  <source src="./videos/DEMO.mp4" type="video/mp4">
+  <source src="DEMO1.1.mp4" type="video/mp4">
   DEMO
 </video>
 
