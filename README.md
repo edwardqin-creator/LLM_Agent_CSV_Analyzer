@@ -63,6 +63,10 @@ Query: 哪些年份 Components 比 Accessories 的总销售额高?
 Query: exit # 退出程序
 ```
 ## 📹 演示视频
+<video controls width="600">
+  <source src="./videos/DEMO.mp4" type="video/mp4">
+  DEMO
+</video>
 
 ## 📖 项目架构
 <img width="1040" alt="截屏2024-12-23 23 31 48" src="https://github.com/user-attachments/assets/5173619d-a2d0-4484-8c49-3246bd89d317" />
