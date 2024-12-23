@@ -1,6 +1,6 @@
 # CSV Data Analysis System
 
-基于大模型的CSV数据分析系统，能够通过自然语言需求来执行代码分析CSV数据（参照OpenAI's Code Interpreter）。
+基于大模型的CSV数据分析系统，能够通过自然语言需求来执行代码分析CSV数据。
 
 ## 功能特点
 
