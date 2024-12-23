@@ -64,6 +64,8 @@ Query: exit # 退出程序
 ```
 
 ## 📖 项目架构
+![image](https://github.com/user-attachments/assets/b018b1ae-1004-4357-b4c6-1266e0ddc95a)
+
 
 ## 🔧 模块功能说明
 
