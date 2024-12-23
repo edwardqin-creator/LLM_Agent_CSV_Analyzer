@@ -39,7 +39,7 @@ pip install -r requirements.txt
 
 4. 配置环境变量
 ```bash
-### 编辑 .env 文件，添加你的智谱AI API密钥
+### 在根目录创建并编辑 .env 文件，添加你的智谱AI API密钥
 ZHIPU_API_KEY=your_api_key_here
 ```
 
