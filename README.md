@@ -100,8 +100,6 @@ Query: exit # 退出程序
 
 2. **utils/code_executor.py**
    - 提供安全的代码执行环境
-   - 捕获和处理执行错误
-   - 管理执行上下文
 
 3. **utils/code_manager.py**
    - 管理和执行 Python 代码片段
