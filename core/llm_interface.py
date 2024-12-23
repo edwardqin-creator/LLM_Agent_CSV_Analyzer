@@ -5,14 +5,15 @@ import hashlib
 import hmac
 import base64
 from typing import List, Dict
-from config import ZHIPU_API_KEY, MODEL, API_URL, SYSTEM_PROMPT
+from config import ZHIPU_API_KEY, MODEL, API_URL, SYSTEM_PROMPT1, SYSTEM_PROMPT2
 import logging
 
 class LLMInterface:
     def __init__(self):
         self.api_key = ZHIPU_API_KEY
         self.model = MODEL
-        self.system_prompt = SYSTEM_PROMPT
+        self.system_prompt1 = SYSTEM_PROMPT1
+        self.system_prompt2 = SYSTEM_PROMPT2
         
     def _generate_signature(self, timestamp: int) -> str:
         """生成智谱AI API签名"""
@@ -41,19 +42,22 @@ class LLMInterface:
         
     def generate_response(self, 
                          messages: List[Dict[str, str]], 
-                         data_info: dict = None) -> str:
+                         data_info: dict = None,
+                         task_type: str = None) -> str:
         """生成回复"""
         # 构建完整的上下文
-        full_messages = [{"role": "system", "content": self.system_prompt}]
-        
-        # 如果有数据信息，添加到上下文
+        if task_type == "Coding":
+            full_messages = [{"role": "system", "content": self.system_prompt1}]
+        else:
+            full_messages = []
+
         if data_info:
             data_context = f"""当前数据信息:
                             - 形状: {data_info['shape']}
                             - 列: {data_info['columns']}
                             - 数据类型: {data_info['dtypes']}"""
             full_messages.append({"role": "system", "content": data_context})
-            
+
         full_messages.extend(messages)
         
         try:

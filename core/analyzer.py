@@ -49,13 +49,14 @@ class DataAnalyzer:
         # 获取数据信息
         data_info = self.csv_handler.get_data_info()
 
-        print (f"DEBUG用:当前送入的查询信息（包含历史记录为）:{current_messages}")
+        # print (f"DEBUG用:当前送入的查询信息（包含历史记录为）:{current_messages}")
         
         # 生成代码
         print("生成分析代码...")
         response = self.llm_interface.generate_response(
             current_messages,
-            data_info
+            data_info,
+            "Coding"
         )
         
         # 提取代码并执行
@@ -100,7 +101,8 @@ class DataAnalyzer:
 
         explanation = self.llm_interface.generate_response(
             [explanation_prompt, result_prompt],
-            None
+            None,
+            "Explain"
         )
         
         # 将当前轮次的对话对添加到历史记录
@@ -144,4 +146,5 @@ class DataAnalyzer:
         #     self.conversation_history = self.conversation_history[:-2]
         
         error_prompt = f"""之前的代码执行出错。错误信息：{error} 请修正代码并重试。"""
+        self.conversation_history.append({"role": "user", "content": error_prompt})
         return self.process_query(query) 
