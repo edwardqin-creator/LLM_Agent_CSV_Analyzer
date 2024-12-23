@@ -65,7 +65,8 @@ Query: exit # 退出程序
 ## 📹 演示视频
 
 ## 📖 项目架构
-[22222.drawio.pdf](https://github.com/user-attachments/files/18230935/22222.drawio.pdf)
+<img width="1040" alt="截屏2024-12-23 23 31 48" src="https://github.com/user-attachments/assets/5173619d-a2d0-4484-8c49-3246bd89d317" />
+
 
 
 ## 🔧 模块功能说明
