@@ -65,7 +65,8 @@ Query: exit # 退出程序
 ## 📹 演示视频
 
 ## 📖 项目架构
-![image](https://github.com/user-attachments/assets/4f0f252e-6e6d-4898-8846-b3621cb7dca2)
+[22222.drawio.pdf](https://github.com/user-attachments/files/18230935/22222.drawio.pdf)
+
 
 ## 🔧 模块功能说明
 
@@ -103,7 +104,6 @@ Query: exit # 退出程序
 
 3. **utils/code_manager.py**
    - 管理和执行 Python 代码片段
-   - 提供安全的代码执行环境
    - 处理执行错误
    - 实现日志记录功能
    - 输出清理和格式化
