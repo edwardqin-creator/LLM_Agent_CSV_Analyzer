@@ -2,18 +2,56 @@
 
 基于大模型的CSV数据分析系统，能够通过自然语言需求来执行代码分析CSV数据。
 
-## 功能特点
+[English](./README_EN.md) | 简体中文
 
-- ✅CSV文件读取和解析
-- ✅自然语言输入数据分析请求
-- ✅基于大模型的Python代码生成
-- ✅代码检查、执行和错误处理
-- ✅自然语言结果解释
-- ✅支持多轮对话分析
+## 🌟 基础功能
 
-## 项目结构
+- 🤖 基于智谱AI GLM-4V的智能分析系统
+- 📊 智能CSV数据读取和解析
+- 💬 自然语言交互式数据分析
+- 💻 基于大模型的Python代码生成
+- 👨🏻‍💻 自动化代码检查、执行和错误处理
+- 🔍 智能结果总结
+  
+## 🌟 特性
+- 🔄 支持多轮对话分析
+- 🛡️ 安全的代码执行环境
+- 📝 详细的日志记录系统
 
-## 模块功能说明
+## 🚀 快速开始
+
+### 环境要求
+- Python 3.8+
+- 智谱AI API密钥
+
+### 安装
+1. 克隆仓库
+bash
+git clone [https://github.com/yourusername/csv-analysis-system](https://github.com/edwardqin-creator/CSV_Analyzer).git
+cd CSV_Analyzer
+
+2. 安装依赖
+bash
+pip install -r requirements.txt
+
+3. 配置环境变量
+编辑 .env 文件，添加你的智谱AI API密钥
+ZHIPU_API_KEY=your_api_key_here
+
+### 使用方法
+
+1. 运行程序
+bash
+python main.py your_data.csv
+
+2. 开始分析
+Query: 请分析数据的基本统计信息
+Query: 计算各列的平均值
+Query: exit # 退出程序
+
+## 📖 项目架构
+
+## 🔧 模块功能说明
 
 ### 核心模块
 1. **main.py**
