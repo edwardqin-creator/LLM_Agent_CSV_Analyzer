@@ -26,28 +26,42 @@
 
 ### 安装
 1. 克隆仓库
-bash
-git clone [https://github.com/yourusername/csv-analysis-system](https://github.com/edwardqin-creator/CSV_Analyzer).git
+```bash
+git clone https://github.com/edwardqin-creator/CSV_Analyzer.git
+
 cd CSV_Analyzer
+```
 
-2. 安装依赖
-bash
+3. 安装依赖
+```bash
 pip install -r requirements.txt
+```
 
-3. 配置环境变量
-编辑 .env 文件，添加你的智谱AI API密钥
+4. 配置环境变量
+```bash
+### 编辑 .env 文件，添加你的智谱AI API密钥
 ZHIPU_API_KEY=your_api_key_here
+```
 
 ### 使用方法
 
 1. 运行程序
-bash
-python main.py your_data.csv
+```bash
+python main.py ./data/test.csv
+```
 
 2. 开始分析
-Query: 请分析数据的基本统计信息
-Query: 计算各列的平均值
+```bash
+Query: 请分析数据的基本统计信息, 并输出前五行
+
+Query: 分析 Clothing 随时间变化的总销售额趋势
+
+Query: 对 Bikes类进行同样的分析
+
+Query: 哪些年份 Components 比 Accessories 的总销售额高?
+
 Query: exit # 退出程序
+```
 
 ## 📖 项目架构
 
