@@ -31,7 +31,7 @@ class CodeManager:
         logging.info(f"DataFrame loaded with shape: {df.shape}")
         
     def update_code(self, code: str):
-        """更新要执行的代码"""
+        """更新要执行的代码(进行检查)"""
         # 检查代码是否使用了正确的变量名
         if 'read_csv' in code or 'file_path' in code:
             logging.warning("Code attempts to read CSV file directly")

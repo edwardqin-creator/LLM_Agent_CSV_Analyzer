@@ -24,16 +24,37 @@ class DataAnalyzer:
         """处理用户查询"""
         print(f"\n处理查询: {query}")
         
-        # 添加用户查询到对话历史
-        self.conversation_history.append({"role": "user", "content": query})
+        # 构建当前查询的主要提示信息
+        current_messages = [
+            {
+                "role": "user",
+                "content": query
+            }
+        ]
+        
+        # 如果有历史对话，将其作为参考信息添加到系统提示中
+        if self.conversation_history:
+            history_context = "参考历史对话：\n"
+            for i in range(0, len(self.conversation_history), 2):
+                if i + 1 < len(self.conversation_history):
+                    user_query = self.conversation_history[i]["content"]
+                    system_response = self.conversation_history[i + 1]["content"]
+                    history_context += f"问：{user_query}\n答：{system_response}\n\n"
+            
+            current_messages.insert(0, {
+                "role": "assistant",
+                "content": history_context
+            })
         
         # 获取数据信息
         data_info = self.csv_handler.get_data_info()
+
+        print (f"DEBUG用:当前送入的查询信息（包含历史记录为）:{current_messages}")
         
         # 生成代码
         print("生成分析代码...")
         response = self.llm_interface.generate_response(
-            self.conversation_history,
+            current_messages,
             data_info
         )
         
@@ -54,7 +75,7 @@ class DataAnalyzer:
         # 请求模型解释执行结果
         print("正在对结果进行最终的分析...")
         explanation_prompt = {
-            "role": "user",
+            "role": "system",
             "content": """
             你是一个数据分析助手，现在需要解释数据分析的结果。请注意：
             1. 仔细阅读执行结果中的具体数据
@@ -79,10 +100,15 @@ class DataAnalyzer:
 
         explanation = self.llm_interface.generate_response(
             [explanation_prompt, result_prompt],
-            None  # 不需要再传递数据信息
+            None
         )
         
-        # 返回结果和解释
+        # 将当前轮次的对话对添加到历史记录
+        self.conversation_history.extend([
+            {"role": "user", "content": query},
+            {"role": "assistant", "content": explanation}
+        ])
+        
         return f"""执行结果：
 {output}
 
@@ -113,6 +139,9 @@ class DataAnalyzer:
         
     def _handle_error(self, query: str, error: str) -> str:
         """处理代码执行错误"""
+        # # 移除最后添加的错误对话（如果有）
+        # if len(self.conversation_history) >= 2:
+        #     self.conversation_history = self.conversation_history[:-2]
+        
         error_prompt = f"""之前的代码执行出错。错误信息：{error} 请修正代码并重试。"""
-        self.conversation_history.append({"role": "user", "content": error_prompt})
         return self.process_query(query) 
